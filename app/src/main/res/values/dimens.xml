@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_normal_text_view">8dp</dimen>
+    <dimen name="elevation_standar_cardview">4dp</dimen>
+    <dimen name="corder_radio_card_view">5dp</dimen>
+    <dimen name="size_title_note">20sp</dimen>
+    <dimen name="size_body_note">14sp</dimen>
+</resources>
