@@ -15,13 +15,16 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.culturageek.quicknote.R;
 import com.culturageek.quicknote.databinding.FragmentNoteListBinding;
 import com.culturageek.quicknote.db.entity.NoteEntity;
 import com.culturageek.quicknote.ui.adapter.NoteListAdapter;
+import com.culturageek.quicknote.ui.dialogs.CustomSimpleAlertDialog;
 import com.culturageek.quicknote.ui.interfaces.INoteListener;
 import com.culturageek.quicknote.viewmodel.NoteViewModel;
 
@@ -31,7 +34,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NoteListFragment extends Fragment implements View.OnClickListener {
+public class NoteListFragment extends Fragment implements View.OnClickListener, INoteListener.IDialogListener {
     public static final String TAG = "NoteListFragment";
     private FragmentNoteListBinding mBinding;
     private NoteViewModel mNoteViewModel;
@@ -52,6 +55,12 @@ public class NoteListFragment extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         if (context instanceof INoteListener) mListener = (INoteListener) context;
         else throw new ClassCastException("INoteListener");
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -113,8 +122,42 @@ public class NoteListFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                //Go to Settings Fragment
+                Toast.makeText(mActivity, "Ajustes", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_delete_all:
+                showDialog();
+                break;
+        }
+        return false;
+    }
+
+    private void showDialog() {
+        CustomSimpleAlertDialog customSimpleAlertDialog = CustomSimpleAlertDialog.getInstance("Estas seguro de querer borrar todos las notas");
+        customSimpleAlertDialog.setDialogListener(this);
+        customSimpleAlertDialog.show(mActivity.getFragmentManager(), CustomSimpleAlertDialog.TAG);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void actionDialog(int actionDialog) {
+        switch (actionDialog){
+            case Activity.RESULT_OK:
+                mNoteViewModel.deleteAllNote();
+                break;
+        }
     }
 }

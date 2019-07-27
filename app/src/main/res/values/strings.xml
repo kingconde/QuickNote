@@ -6,6 +6,9 @@
     <!-- MENU -->
     <string name="item_menu_delete_all">Eliminar todo</string>
     <string name="item_menu_settings">Ajustes</string>
+
+    <string name="item_menu_clean_note">Limpiar</string>
+    <!-- DIALOG -->
     <string name="btn_positive_dialog">Aceptar</string>
     <string name="btn_negative_dialog">Cancelar</string>
 

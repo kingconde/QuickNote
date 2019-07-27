@@ -7,4 +7,8 @@ public interface INoteListener {
     void showTitle(String title, String fragmentTag);
     void navigateTo(Fragment fragment, String fragmentTag);
     void closeFragment(Fragment fragment, String fragmentTag);
+
+    interface IDialogListener{
+        void actionDialog(int actionDialog);
+    }
 }
